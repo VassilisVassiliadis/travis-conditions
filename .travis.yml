@@ -1,0 +1,17 @@
+language: python
+os: linux
+
+stages:
+  - name: webpage
+    if: (branch = main) && (type != pull_request) && (tag is blank) && (commit_message =~ webpage)
+  - name: build
+    if: (branch = main) && (type != pull_request) && (tag is blank) && (commit_message !~ webpage)
+
+jobs:
+  include:
+    - stage: webpage
+      script:
+        - echo 'This should only run when commit_message contains the text "webpage"'
+    - stage: build
+      script:
+        - echo 'This should only run commit_message does not contain the text "webpage"'
